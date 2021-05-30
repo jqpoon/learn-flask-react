@@ -1,11 +1,43 @@
 services:
-    api:
-        build: api
-        command: ["flask","run", "--host=0.0.0.0"]
+    backend:
+        container_name: flask-backend
+        build: backend
+        command: ["flask","run", "--host=0.0.0.0", "--port=5000"]
         volumes:
-            - ./api:/backend
+            - ./backend:/backend
         environment:
             - FLASK_ENV=development
             - FLASK_APP=api.py
         ports:
-            - "5000:5000"
+            - '5000:5000'
+        # networks:
+        #     app_net:
+        #         ipv4_address: 172.21.0.2
+    
+    frontend:
+        build: frontend
+        command: ["npm", "start"]
+        volumes:
+            - ./frontend:/frontend
+            - node-modules:/frontend/node_modules
+        environment:
+            - NODE_ENV=development
+        ports:
+            - '3000:3000'
+        depends_on:
+            - backend
+        # networks:
+        #     app_net:
+        #         ipv4_address: 172.21.0.3
+
+volumes:
+    node-modules:
+
+# networks:
+#     app_net:
+#         driver: bridge
+#         ipam:
+#             driver: default
+#             config:
+#                 - subnet: 172.21.0.0/24
+#                 - gateway: 172.21.0.1

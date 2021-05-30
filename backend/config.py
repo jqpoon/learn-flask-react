@@ -1,0 +1,1 @@
+SERVER_NAME = 'flask-backend:5000'

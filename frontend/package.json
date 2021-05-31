@@ -13,7 +13,6 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start-api": "cd api && /home/jqp/miniconda3/envs/drp/bin/flask run --no-debugger",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -36,5 +35,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://flask-backend:5000"
+  "proxy": "http://backend:5000"
 }

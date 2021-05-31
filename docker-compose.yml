@@ -1,7 +1,6 @@
 services:
     backend:
-        container_name: flask-backend
-        build: backend
+        build: ./backend
         command: ["flask","run", "--host=0.0.0.0", "--port=5000"]
         volumes:
             - ./backend:/backend
@@ -10,12 +9,11 @@ services:
             - FLASK_APP=api.py
         ports:
             - '5000:5000'
-        # networks:
-        #     app_net:
-        #         ipv4_address: 172.21.0.2
+        networks:
+            - frontend
     
     frontend:
-        build: frontend
+        build: ./frontend
         command: ["npm", "start"]
         volumes:
             - ./frontend:/frontend
@@ -26,18 +24,12 @@ services:
             - '3000:3000'
         depends_on:
             - backend
-        # networks:
-        #     app_net:
-        #         ipv4_address: 172.21.0.3
+        networks:
+            - frontend
 
 volumes:
     node-modules:
 
-# networks:
-#     app_net:
-#         driver: bridge
-#         ipam:
-#             driver: default
-#             config:
-#                 - subnet: 172.21.0.0/24
-#                 - gateway: 172.21.0.1
+networks:
+    frontend:
+        driver: bridge
